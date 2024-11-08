@@ -1,6 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:thedaging/app/modules/home/views/background.dart';
 import 'package:thedaging/app/modules/profile/views/profile_view.dart';
+
+import '../../favorit/views/favorit_view.dart';
+import '../../history/views/history_view.dart';
+import '../../menudaging/views/daging_view.dart';
+import '../../menujeroan/views/jeroan_view.dart';
+import '../../menutulang/views/tulang_view.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({Key? key}) : super(key: key);
@@ -90,6 +98,7 @@ class MainPage extends StatelessWidget {
                         title: "Daging",
                         icon: Icons.restaurant_menu,
                         isSelected: true),
+
                     CategoryCard(title: "Jeroan", icon: Icons.restaurant_menu),
                     CategoryCard(title: "Tulang", icon: Icons.restaurant_menu),
                   ],
@@ -151,6 +160,19 @@ class MainPage extends StatelessWidget {
         backgroundColor: Colors.white,
         selectedItemColor: Colors.red.shade900,
         unselectedItemColor: Colors.grey,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Get.to(() => MainPage()); // Navigasi ke BerandaPage
+              break;
+            case 1:
+              Get.to(() => HistoryPage()); // Navigasi ke HistoryPage
+              break;
+            case 2:
+              Get.to(() => FavoritPage()); // Navigasi ke FavoritPage
+              break;
+          }
+        },
         items: const [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
@@ -184,27 +206,41 @@ class CategoryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
-      decoration: BoxDecoration(
-        color: isSelected ? Colors.red.shade900 : Colors.white,
-        borderRadius: BorderRadius.circular(8.0),
-        border: Border.all(color: Colors.red.shade900),
-      ),
-      child: Column(
-        children: [
-          Icon(icon, color: isSelected ? Colors.white : Colors.red.shade900),
-          SizedBox(height: 6),
-          Text(
-            title,
-            style: TextStyle(
-                color: isSelected ? Colors.white : Colors.red.shade900),
-          ),
-        ],
+    return GestureDetector(
+      onTap: () {
+        // Navigasi berdasarkan kategori
+        if (title == "Daging") {
+          Get.to(() => MenuDagingPage()); // Navigasi ke MenuDagingPage
+        } else if (title == "Jeroan") {
+          Get.to(() => MenuJeroanPage()); // Navigasi ke MenuJeroanPage
+        } else if (title == "Tulang") {
+          Get.to(() => MenuTulangPage()); // Navigasi ke MenuTulangPage
+        }
+      },
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+        decoration: BoxDecoration(
+          color: isSelected ? Colors.red.shade900 : Colors.white,
+          borderRadius: BorderRadius.circular(8.0),
+          border: Border.all(color: Colors.red.shade900),
+        ),
+        child: Column(
+          children: [
+            Icon(icon, color: isSelected ? Colors.white : Colors.red.shade900),
+            SizedBox(height: 6),
+            Text(
+              title,
+              style: TextStyle(
+                color: isSelected ? Colors.white : Colors.red.shade900,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
+
 
 class RecommendationCard extends StatelessWidget {
   final String title;
